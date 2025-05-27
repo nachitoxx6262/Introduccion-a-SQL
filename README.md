@@ -12,6 +12,9 @@
 - `FOREIGN KEY` → Define una relación con otra tabla.
 - `CHECK` → Restringe los valores permitidos (ej: `CHECK (edad >= 18)`).
 - `COMMENT` → Permite añadir un comentario sobre el campo.
+- `UNSIGNED` → Permite solo numeros positivos.
+- `BINARY` → Los valores se almacenarán en binario.
+- `ZERO FILL` → El contenido del campo se completará con zeros siempre que sea numérico.
 
 ### Numéricos:
 - `INT`, `INTEGER` → Enteros estándar, hasta ±2 mil millones.
@@ -45,6 +48,20 @@
 
 ---
 
+
+## 💬 COMENTARIOS
+```sql
+-- Comentario de una sola linea
+
+/*
+    Comentario
+    multilinea
+/*
+
+# Comentario de una sola linea
+```
+
+
 ## 🕵️ CREATE: Crear DB/table
 ```sql
 -- Para crear una DB
@@ -61,7 +78,16 @@ CREATE TABLE Productos(
     Disponible BOOLEAN DEFAULT false
 )
 ```
+ 
 
+## 🕵️ DROP: Eliminar tabla
+```sql
+-- Eliminar tabla
+DROP TABLE Productos;
+o
+-- Eliminar la tabla si existe
+DROP TABLE IF EXIST Productos;
+```
 ## 🕵️ SELECT: La Estrella de SQL
 
 ```sql
