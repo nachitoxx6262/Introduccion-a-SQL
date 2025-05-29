@@ -88,6 +88,29 @@ o
 -- Eliminar la tabla si existe
 DROP TABLE IF EXIST Productos;
 ```
+## 🧪 FILTROS Y CONDICIONES
+```sql
+-- Igualdad
+SELECT * FROM empleados WHERE salario = 1000;
+
+-- Diferente
+SELECT * FROM empleados WHERE salario != 1000;
+
+-- Rango
+SELECT * FROM productos WHERE precio BETWEEN 10 AND 50;
+
+-- Lista de valores
+SELECT * FROM clientes WHERE pais IN ('Argentina', 'Uruguay', 'Paraguay');
+
+-- Coincidencia parcial
+SELECT * FROM clientes WHERE nombre LIKE 'A%'; -- empieza con A
+SELECT * FROM clientes WHERE nombre LIKE '%z'; -- termina en z
+SELECT * FROM clientes WHERE nombre LIKE '%Juan%'; -- contiene Juan
+
+-- Valores nulos
+SELECT * FROM usuarios WHERE fecha_nacimiento IS NULL;
+```
+
 ## 🕵️ SELECT: La Estrella de SQL
 
 ```sql
@@ -149,7 +172,91 @@ FROM tablaA a
 FULL OUTER JOIN tablaB b ON a.id = b.id;
 ```
 
+## 🧠 REALIZAR OPERACIONES EN UNA CONSULTA
+```sql
+-- Seleccionamos todas las columnas de articulos y a la columna precio la multiplicamos, el resultado lo colocaremos en una columna nueva llamada en Precio con IVA
+
+SELECT * , Precio * 1.21 AS 'Precio con IVA' FROM articulos;
+```
+
 ---
+
+## 🔂 Subconsultas (Subqueries)
+Permiten usar el resultado de una consulta como valor dentro de otra.
+```sql
+-- Empleados con salario superior al promedio:
+SELECT nombre
+FROM empleados
+WHERE salario > (
+    SELECT AVG(salario)
+    FROM empleados
+);
+```
+
+## 🧱 Common Table Expressions (CTE)
+Ideal para dividir consultas complejas y reutilizar resultados parciales.
+```sql
+WITH Promedios AS (
+    SELECT departamento_id, AVG(salario) AS promedio
+    FROM empleados
+    GROUP BY departamento_id
+)
+SELECT e.nombre, e.salario, p.promedio
+FROM empleados e
+JOIN Promedios p ON e.departamento_id = p.departamento_id;
+```
+
+## 🔒 Transacciones SQL
+Sirven para agrupar varias operaciones en una sola unidad de trabajo.
+```sql
+BEGIN;
+
+UPDATE cuentas SET saldo = saldo - 500 WHERE id = 1;
+UPDATE cuentas SET saldo = saldo + 500 WHERE id = 2;
+
+COMMIT; -- O ROLLBACK si algo falla
+```
+
+## 🤖 Operaciones con NULL
+```sql
+-- Reemplaza nulos con un valor alternativo
+SELECT nombre, COALESCE(telefono, 'Sin teléfono') AS contacto
+FROM clientes;
+
+-- Comprueba si un campo es o no nulo
+SELECT * FROM usuarios WHERE direccion IS NOT NULL;
+```
+
+---
+## 🔧 Funciones comunes en SQL
+- `NOW()` → Fecha y hora actual
+- `CURDATE()` → Solo la fecha actual
+- `DATEDIFF(f1, f2)` → Diferencia de días entre dos fechas
+- `LENGTH(texto)` → Longitud de un string
+- `CONCAT(a, b)` → Concatena cadenas
+- `ROUND(numero, decimales)` → Redondea un número
+
+## 📌 Manipulación de datos (INSERT, UPDATE, DELETE)
+```sql
+-- Insertar un registro
+INSERT INTO productos (nombre, precio) VALUES ('Mate', 1500);
+
+-- Actualizar un registro
+UPDATE productos SET precio = 1800 WHERE nombre = 'Mate';
+
+-- Eliminar un registro
+DELETE FROM productos WHERE nombre = 'Mate';
+```
+--- 
+
+## 🧩 Constraints adicionales
+```sql
+FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+-- Elimina registros relacionados automáticamente.
+    ON DELETE CASCADE
+-- Actualiza claves foráneas si cambia la clave primaria.
+    ON UPDATE CASCADE
+```
 
 ## 🛠 Tips Extra
 - Usa `AS` para alias: `SELECT nombre AS cliente_nombre`
