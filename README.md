@@ -276,4 +276,47 @@ ORDER BY cantidad_pedidos DESC;
 ```
 
 ---
+## ALTER TABLE
+Lo utilizaremos para modificar la estructura de la tabla
+```SQL
+--- Para agregar una columna ADD COLUMN
+ALTER TABLE articulos ADD COLUMN Observaciones VARCHAR(50) NULL;
 
+--- Agregar una columna en un lugar especifico (FIRST)
+ALTER TABLE clientes ADD COLUMN Primera VARCHAR(50) NULL FIRST;
+
+--- Agregamos una columna despues de "Nombre" AFTER
+ALTER TABLE clientes ADD COLUMN Siguiente VARCHAR(50) NULL AFTER Nombre;
+
+--- Modificamos el nombre de una columna CHANGE
+ALTER TABLE articulos
+CHANGE observaciones comentarios VARCHAR(40) NULL;
+
+--- Cambiar tipo de dato de una columna
+ALTER TABLE articulos
+MODIFY comentarios TEXT NULL;
+
+--- Eliminar una columna
+ALTER TABLE articulos DROP COLUMN comentarios;
+
+--- Se eliminan dos columnas
+ALTER TABLE clientes DROP COLUMN Primera, DROP COLUMN Siguiente;
+
+--- Renombrar una tabla
+ALTER TABLE Articulos RENAME Productos;
+
+--- Agregar o eliminar restricciones (Primary Key)
+ALTER TABLE Articulos DROP Primary Key;
+
+--- Agregar una restriccion (Primary Key)
+ALTER TABLE Articulos ADD Primary Key(ArticuloID);
+
+--- Eliminar FOREIGN KEY
+ALTER TABLE facturas DROP FOREIGN KEY fk_articulo;
+
+--- Agregar la restriccion FOREIGN KEY 
+ALTER TABLE facturas ADD CONSTRAINT fk_articulo
+FOREIGN KEY(ArticuloID) REFERENCES Articulos(ArticuloID);
+
+
+```
